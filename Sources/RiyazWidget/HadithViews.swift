@@ -54,7 +54,6 @@ private struct HadithContent: View {
                         if !hadith.arabicText.isEmpty {
                             arabicCard(hadith.arabicText)
                         }
-                        attribution
                     }
                     .padding(24)
                 }
@@ -105,12 +104,15 @@ private struct HadithContent: View {
     private var dayNavigation: some View {
         HStack(spacing: 10) {
             Button(action: store.showPrevious) {
-                Label("Önceki", systemImage: "chevron.left")
+                Image(systemName: "chevron.left")
+                    .font(.title3.weight(.bold))
+                    .frame(width: 42, height: 32)
             }
             .buttonStyle(.bordered)
             .tint(teal)
             .controlSize(.regular)
             .disabled(!store.canShowPrevious)
+            .accessibilityLabel("Önceki hadis")
 
             Spacer()
 
@@ -121,13 +123,15 @@ private struct HadithContent: View {
             Spacer()
 
             Button(action: store.showNext) {
-                Label("Sonraki", systemImage: "chevron.right")
-                    .labelStyle(.titleAndIcon)
+                Image(systemName: "chevron.right")
+                    .font(.title3.weight(.bold))
+                    .frame(width: 42, height: 32)
             }
             .buttonStyle(.bordered)
             .tint(teal)
             .controlSize(.regular)
             .disabled(!store.canShowNext)
+            .accessibilityLabel("Sonraki hadis")
         }
         .font(.subheadline)
     }
@@ -171,10 +175,4 @@ private struct HadithContent: View {
         .overlay(RoundedRectangle(cornerRadius: 18).stroke(teal.opacity(0.18), lineWidth: 1))
     }
 
-    private var attribution: some View {
-        Link("Kaynak: HadisKitaplari.com · Riyâzü’s-Sâlihîn veri seti", destination: URL(string: "https://github.com/HasanEksi/Riyazus-Salihin-Veritabani-HadisKitaplari.com")!)
-            .font(.caption)
-            .foregroundStyle(teal)
-            .frame(maxWidth: .infinity, alignment: .center)
-    }
 }
