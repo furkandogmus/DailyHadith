@@ -1,6 +1,7 @@
 import SwiftUI
 
 @main
+@MainActor
 struct RiyazWidgetApp: App {
     @State private var store = HadithStore()
 

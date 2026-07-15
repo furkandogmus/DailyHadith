@@ -1,6 +1,7 @@
 import SwiftUI
 import AppKit
 
+@MainActor
 struct HadithMenuView: View {
     let store: HadithStore
     @Environment(\.openWindow) private var openWindow
@@ -27,6 +28,7 @@ struct HadithMenuView: View {
     }
 }
 
+@MainActor
 struct HadithWindowView: View {
     let store: HadithStore
 
@@ -36,6 +38,7 @@ struct HadithWindowView: View {
     }
 }
 
+@MainActor
 private struct HadithContent: View {
     let store: HadithStore
     let compact: Bool
