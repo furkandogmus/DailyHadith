@@ -10,7 +10,7 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "RiyazWidget",
-            resources: [.copy("Resources/riyazus-salihin-hadisleri.json")]
+            exclude: ["Resources"]
         )
     ]
 )

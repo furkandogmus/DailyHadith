@@ -36,7 +36,7 @@ final class HadithStore {
     func showFirst() { selectedIndex = 0 }
 
     private func loadBundledHadiths() {
-        guard let resourceURL = Bundle.module.url(
+        guard let resourceURL = Bundle.main.url(
             forResource: "riyazus-salihin-hadisleri",
             withExtension: "json"
         ),

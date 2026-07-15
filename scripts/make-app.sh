@@ -16,8 +16,8 @@ mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$root/.build/release/DailyHadith" "$app/Contents/MacOS/DailyHadith"
 cp "$root/AppBundle/Info.plist" "$app/Contents/Info.plist"
 cp "$icon" "$app/Contents/Resources/AppIcon.icns"
-# SwiftPM resolves Bundle.module relative to the .app bundle itself.
-# This prevents a fallback to the development path under Documents.
-cp -R "$root/.build/release/"*.bundle "$app/"
+# The hadith corpus lives in the app's standard resource directory. Runtime
+# reads only Bundle.main; it never falls back to a development/Documents path.
+cp "$root/Sources/RiyazWidget/Resources/riyazus-salihin-hadisleri.json" "$app/Contents/Resources/"
 
 echo "Hazır: $app"
