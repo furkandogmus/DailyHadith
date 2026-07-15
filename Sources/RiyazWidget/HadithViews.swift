@@ -159,9 +159,20 @@ private struct HadithContent: View {
 
             Spacer()
 
-            Text("Hadis \(store.selectedIndex + 1) / \(store.hadiths.count)")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(teal)
+            HStack(spacing: 8) {
+                Text("Hadis \(store.selectedIndex + 1) / \(store.hadiths.count)")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(teal)
+                Button(action: store.showRandom) {
+                    Image(systemName: "shuffle")
+                        .font(.body.weight(.bold))
+                        .frame(width: 30, height: 30)
+                }
+                .buttonStyle(.bordered)
+                .tint(teal)
+                .help("Rastgele hadis getir")
+                .accessibilityLabel("Rastgele hadis getir")
+            }
 
             Spacer()
 

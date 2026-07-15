@@ -33,6 +33,15 @@ final class HadithStore {
         selectedIndex += 1
     }
 
+    func showRandom() {
+        guard hadiths.count > 1 else { return }
+        var nextIndex = Int.random(in: hadiths.indices)
+        if nextIndex == selectedIndex {
+            nextIndex = (nextIndex + Int.random(in: 1..<hadiths.count)) % hadiths.count
+        }
+        selectedIndex = nextIndex
+    }
+
     func showFirst() { selectedIndex = 0 }
 
     private func loadBundledHadiths() {

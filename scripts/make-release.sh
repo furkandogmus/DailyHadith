@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="${0:A:h:h}"
-version="1.0.7"
+version="1.0.8"
 archive="$root/dist/DailyHadith-${version}-macos-arm64.zip"
 
 "$root/scripts/make-app.sh"
