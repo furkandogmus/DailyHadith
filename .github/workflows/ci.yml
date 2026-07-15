@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-privacy-audit:
+    name: Build and privacy audit
+    runs-on: macos-14
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Build the macOS application
+        run: swift build -c release
+
+      - name: Verify bundled corpus integrity
+        run: |
+          jq -e '
+            length == 1900 and
+            all(.[];
+              (.hadith_id | type == "string") and
+              (.turkish | type == "string") and
+              (.arabic | type == "string")
+            )
+          ' Sources/RiyazWidget/Resources/riyazus-salihin-hadisleri.json >/dev/null
+
+      - name: Guard the offline privacy boundary
+        run: |
+          ! rg -n 'URLSession|Bundle\.module|Documents|Desktop|Downloads|CocoaAsyncSocket' Sources Package.swift
+
