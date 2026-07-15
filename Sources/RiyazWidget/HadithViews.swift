@@ -50,7 +50,7 @@ private struct HadithContent: View {
                     VStack(alignment: .leading, spacing: 18) {
                         header(id: hadith.hadithID)
                         dayNavigation
-                        textCard(title: "TÜRKÇE", icon: "text.quote", body: hadith.turkishText)
+                        turkishCard(hadith.turkishParts)
                         if !hadith.arabicText.isEmpty {
                             arabicCard(hadith.arabicText)
                         }
@@ -136,18 +136,34 @@ private struct HadithContent: View {
         .font(.subheadline)
     }
 
-    private func textCard(title: String, icon: String, body: String) -> some View {
+    private func turkishCard(_ parts: HadithTextParts) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Label(title, systemImage: icon)
+            Label("TÜRKÇE", systemImage: "text.quote")
                 .font(.caption.weight(.bold))
                 .tracking(0.7)
                 .foregroundStyle(teal)
-            Text(body)
-                .font(.system(size: 17, weight: .regular, design: .serif))
-                .foregroundStyle(ink)
-                .lineSpacing(6)
-                .textSelection(.enabled)
-                .fixedSize(horizontal: false, vertical: true)
+            ForEach(Array(parts.paragraphs.enumerated()), id: \.offset) { index, paragraph in
+                Text(paragraph)
+                    .font(.system(size: 17, weight: index == 0 ? .medium : .regular, design: .serif))
+                    .foregroundStyle(ink)
+                    .lineSpacing(6)
+                    .textSelection(.enabled)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, index + 1 == parts.paragraphs.count ? 0 : 6)
+            }
+            if let references = parts.references {
+                Divider()
+                    .padding(.top, 4)
+                Label("KAYNAKLAR", systemImage: "books.vertical")
+                    .font(.caption2.weight(.bold))
+                    .tracking(0.7)
+                    .foregroundStyle(teal)
+                Text(references)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .lineSpacing(3)
+                    .textSelection(.enabled)
+            }
         }
         .padding(18)
         .background(.white.opacity(0.94), in: RoundedRectangle(cornerRadius: 18))
