@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   build-and-privacy-audit:
     name: Build and privacy audit
@@ -37,4 +41,3 @@ jobs:
       - name: Guard the offline privacy boundary
         run: |
           ! rg -n 'URLSession|Bundle\.module|Documents|Desktop|Downloads|CocoaAsyncSocket' Sources Package.swift
-
