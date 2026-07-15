@@ -43,6 +43,14 @@ struct HadithTextParts {
             cleaned.range(of: $0, options: [.caseInsensitive, .diacriticInsensitive])?.lowerBound == cleaned.startIndex
         }
     }
+
+    func displayText(for paragraph: String) -> String {
+        guard let colon = paragraph.firstIndex(of: ":") else { return paragraph }
+        let before = paragraph[..<colon]
+        let after = paragraph[paragraph.index(after: colon)...].trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !after.isEmpty else { return paragraph }
+        return "\(before):\n\(after)"
+    }
 }
 
 enum HTMLText {

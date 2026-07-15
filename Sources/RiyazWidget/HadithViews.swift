@@ -143,7 +143,7 @@ private struct HadithContent: View {
                 .tracking(0.7)
                 .foregroundStyle(teal)
             ForEach(Array(parts.paragraphs.enumerated()), id: \.offset) { index, paragraph in
-                Text(paragraph)
+                Text(parts.displayText(for: paragraph))
                     .font(.system(size: 17, weight: index == 0 ? .medium : .regular, design: .serif))
                     .foregroundStyle(ink)
                     .lineSpacing(6)
