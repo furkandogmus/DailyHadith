@@ -1,15 +1,33 @@
 import SwiftUI
 import AppKit
+import ServiceManagement
 
 @MainActor
 struct HadithMenuView: View {
     let store: HadithStore
     @Environment(\.openWindow) private var openWindow
+    @State private var launchesAtLogin = false
+    @State private var loginItemMessage: String?
 
     var body: some View {
         VStack(spacing: 0) {
             HadithContent(store: store, compact: true)
                 .frame(height: 480)
+            Divider()
+            Toggle("Girişte Aç", isOn: Binding(
+                get: { launchesAtLogin },
+                set: { setLaunchAtLogin($0) }
+            ))
+            .toggleStyle(.switch)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            if let loginItemMessage {
+                Text(loginItemMessage)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+            }
             Divider()
             HStack {
                 Button("Pencerede Aç") { openWindow(id: "main-window-large") }
@@ -25,6 +43,28 @@ struct HadithMenuView: View {
             .padding(12)
         }
         .frame(width: 460)
+        .onAppear { refreshLoginItemStatus() }
+    }
+
+    private func refreshLoginItemStatus() {
+        launchesAtLogin = SMAppService.mainApp.status == .enabled
+    }
+
+    private func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            if enabled {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+            refreshLoginItemStatus()
+            loginItemMessage = SMAppService.mainApp.status == .requiresApproval
+                ? "macOS onayı için Sistem Ayarları > Giriş Öğeleri bölümünü açın."
+                : nil
+        } catch {
+            refreshLoginItemStatus()
+            loginItemMessage = "Girişte açma ayarı değiştirilemedi."
+        }
     }
 }
 

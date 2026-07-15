@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="${0:A:h:h}"
-version="1.0.6"
+version="1.0.7"
 output="$root/dist/DailyHadith-${version}-macos-arm64.pkg"
 staging="$(mktemp -d)"
 trap 'rm -rf "$staging"' EXIT
