@@ -16,8 +16,8 @@ mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$root/.build/release/DailyHadith" "$app/Contents/MacOS/DailyHadith"
 cp "$root/AppBundle/Info.plist" "$app/Contents/Info.plist"
 cp "$icon" "$app/Contents/Resources/AppIcon.icns"
-# SwiftPM resolves Bundle.module relative to the app bundle's Contents folder.
-# Keeping this beside Resources prevents a fallback to the development path.
-cp -R "$root/.build/release/"*.bundle "$app/Contents/"
+# SwiftPM resolves Bundle.module relative to the .app bundle itself.
+# This prevents a fallback to the development path under Documents.
+cp -R "$root/.build/release/"*.bundle "$app/"
 
 echo "Hazır: $app"
